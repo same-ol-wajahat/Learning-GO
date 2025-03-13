@@ -3,19 +3,21 @@ package main
 import (
 	"log/slog"
 	"net/http"
+	"newsapi/internal/logger"
 	"newsapi/internal/router"
 	"os"
 )
 
 func main() {
 
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{AddSource: false}))
-
-	logger.Info("Server starting on port 3000")
+	log := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{AddSource: true}))
 
 	r := router.New()
+	wrappedRouter := logger.AddLoggerMid(log, logger.LoggerMid(r))
 
-	if err := http.ListenAndServe(":3000", r); err != nil {
-		logger.Error("Failed to to Start the Server", "error", err)
+	log.Info("Server starting on port 3000")
+
+	if err := http.ListenAndServe(":3000", wrappedRouter); err != nil {
+		log.Error("Failed to to Start the Server", "error", err)
 	}
 }
