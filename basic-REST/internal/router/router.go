@@ -6,7 +6,7 @@ import (
 )
 
 // Create and return new router with all routes configured
-func New() *http.ServeMux {
+func New(ns handler.NewStorer) *http.ServeMux {
 
 	r := http.NewServeMux()
 
@@ -15,7 +15,7 @@ func New() *http.ServeMux {
 	// Get specific news by id
 	r.HandleFunc("GET /news/{news_id}", handler.GetNewsByID())
 	// Update specific news by id
-	r.HandleFunc("POST /news", handler.PostNews())
+	r.HandleFunc("POST /news", handler.PostNews(ns))
 	// Update News By id
 	r.HandleFunc("PUT /news/{news_id}", handler.UpdateNewsByID())
 	// Delete specific news by id
