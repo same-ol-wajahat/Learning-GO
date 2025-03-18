@@ -17,6 +17,10 @@ type NewsPostReqBody struct {
 	Tags      []string `json:"tags"`
 }
 
+type AllNewsRespose struct {
+	News []NewsPostReqBody `json:"news"`
+}
+
 func (n NewsPostReqBody) Validate() (errs error) {
 	if n.Author == "" {
 		errs = errors.Join(errs, fmt.Errorf("author is empty: %s", n.Author))
