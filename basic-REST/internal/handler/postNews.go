@@ -18,14 +18,15 @@ func PostNews(ns NewStorer) http.HandlerFunc {
 			return
 		}
 
-		if err := newsRequestBody.Validate(); err != nil {
+		n, err := newsRequestBody.Validate()
+		if err != nil {
 			logger.Error("reuquest validation failed", "error", err)
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 			return
 		}
 
-		if _, err := ns.Create(newsRequestBody); err != nil {
+		if _, err := ns.Create(n); err != nil {
 			logger.Error("error creating the news", "error", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return

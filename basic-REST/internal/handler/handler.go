@@ -1,18 +1,20 @@
 package handler
 
 import (
+	"newsapi/internal/store"
+
 	"github.com/google/uuid"
 )
 
 type NewStorer interface {
 	// create news
-	Create(NewsPostReqBody) (NewsPostReqBody, error)
+	Create(store.News) (store.News, error)
 	// Find new by its ID
-	FindByID(uuid.UUID) (NewsPostReqBody, error)
+	FindByID(uuid.UUID) (store.News, error)
 	// FindAll returns all news in the store
-	FindAll() ([]NewsPostReqBody, error)
+	FindAll() ([]store.News, error)
 	// Delete news by its specific ID
 	DeleteByID(uuid.UUID) error
 	// Update news By its specific ID
-	UpdateByID(NewsPostReqBody) error
+	UpdateByID(store.News) error
 }

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"newsapi/internal/logger"
 	"newsapi/internal/router"
+	"newsapi/internal/store"
 	"os"
 )
 
@@ -12,7 +13,7 @@ func main() {
 
 	log := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{AddSource: true}))
 
-	r := router.New(nil)
+	r := router.New(store.New())
 	wrappedRouter := logger.AddLoggerMid(log, logger.LoggerMid(r))
 
 	log.Info("Server starting on port 3000")

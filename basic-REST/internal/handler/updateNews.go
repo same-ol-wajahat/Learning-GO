@@ -19,14 +19,15 @@ func UpdateNewsByID(ns NewStorer) http.HandlerFunc {
 			return
 		}
 
-		if err := newsRequestBody.Validate(); err != nil {
+		n, err := newsRequestBody.Validate()
+		if err != nil {
 			logger.Error("request valiadation failed", "error", err)
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 			return
 		}
 
-		if err := ns.UpdateByID(newsRequestBody); err != nil {
+		if err := ns.UpdateByID(n); err != nil {
 			logger.Error("error updating the news", "error", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
