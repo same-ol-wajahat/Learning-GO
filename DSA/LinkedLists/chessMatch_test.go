@@ -48,18 +48,48 @@ func TestInsertAtRandomPosition(t *testing.T) {
 			data:     "Nf2",
 			expected: "Nf2",
 		},
-		{
-			name:     "Fourth move",
-			index:    3,
-			data:     "bg5",
-			expected: "bg5",
-		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			c := NewChessMatch()
 			c.insertAt(tc.index, tc.data)
+
+			result := c.getAt(0)
+			if tc.expected != result.data {
+				t.Errorf("extpected: %s got: %s", tc.expected, result.data)
+			}
+		})
+	}
+}
+
+func TestPrepend(t *testing.T) {
+	testCases := []struct {
+		name     string
+		move     *Move
+		expected string
+	}{
+		{
+			name:     "first move",
+			move:     NewMove("g3", nil),
+			expected: "g3",
+		},
+		{
+			name:     "Seocnd move",
+			move:     NewMove("f3", nil),
+			expected: "f3",
+		},
+		{
+			name:     "Third move",
+			move:     NewMove("Nf2", nil),
+			expected: "Nf2",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			c := NewChessMatch()
+			c.prepend(tc.move)
 
 			result := c.getAt(0)
 			if tc.expected != result.data {

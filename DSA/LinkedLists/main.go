@@ -40,3 +40,9 @@ func (c *ChessMatch) insertAt(index int, data string) {
 	prev := c.getAt(index - 1)
 	prev.next = NewMove(data, prev.next)
 }
+
+func (c *ChessMatch) prepend(m *Move) {
+	second := c.head
+	c.head = m
+	c.head.next = second
+}
